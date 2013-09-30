@@ -1,0 +1,13 @@
+version.js  版本控制
+
+utils.js    工具类
+
+common.js  入口
+
+config.js  存储配置（实例化的类都存在里面）
+
+project.js  腾讯接口
+
+preloadjs-0.4.0.min.js  预加载
+
+easeljs-0.7.0.min.js   一个框架（事件派发 绘图等）
