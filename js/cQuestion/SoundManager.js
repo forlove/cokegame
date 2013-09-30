@@ -19,10 +19,27 @@ this.cQuestion = this.cQuestion||{};
     /**
      * 播放音乐
      * @param src srcOrId
+     * @param param
+     * {
+     *  loop:-1,
+     *  completeCallBack = function;
+     * }
      * @returns {void|SoundInstance|*|c.play|SoundInstance.play|a.play}
      */
-    s.play = function(src){
-        return createjs.Sound.play(src);
+    s.play = function(src,param){
+        if(param){
+            var loop = param.loop;
+            if(loop == undefined){
+                loop = 0;
+            }
+            var completeCallBack = param.completeCallBack;
+        }
+        var instance = createjs.Sound.play(src,createjs.Sound.INTERRUPT_ANY,0,0,loop);
+        if(completeCallBack){
+            trace(instance.on);
+            instance.addEventListener("complete",completeCallBack)
+        }
+        return instance;
     }
 
     cQuestion.SoundManager = SoundManager;

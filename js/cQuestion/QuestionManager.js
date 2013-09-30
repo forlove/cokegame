@@ -38,6 +38,7 @@ this.cQuestion = this.cQuestion||{};
      *  tick: 表示时钟
      *  questionChange: 问题改变了
      *  rest:休息时间到了
+     *  showTips 显示tips
      *
      */
 
@@ -83,7 +84,16 @@ this.cQuestion = this.cQuestion||{};
         this.dispatchEvent("questionChange");
         this.play();
 
-    }
+    };
+
+    /**
+     * 得到当前问题
+     * @returns {Question}
+     */
+    p.getCurrentQuestion = function(){
+        var question = this.questions[this.currentQuestionIndex];
+        return question;
+    };
 
     /**
      * 显示试题
@@ -104,16 +114,51 @@ this.cQuestion = this.cQuestion||{};
             if(this._renderBase){
                 this._renderBase.off("result",this._renderEventHander);
                 this._renderBase.off("skip",this._renderEventHander);
+                this._renderBase.off("showTips",this._renderEventHander);
                 this._renderBase.dispose();
             }
             this._renderBase = eval("new "+question.template+"(question,divContentId)");
             this._renderBase.on("result",this._renderEventHander,this,true);
             this._renderBase.on("skip",this._renderEventHander,this,true);
+            this._renderBase.on("showTips",this._renderEventHander,this);
 
         }
 
 
     }
+
+    /**
+     * 接收来自render的事件
+     * @param e
+     * @private
+     */
+    p._renderEventHander = function(e){
+        var eventType = e.type;
+        switch(eventType){
+            case "result":
+                var result = {};
+                result.answer = e.data;
+                var question = this.questions[this.currentQuestionIndex];
+                if(question.answerIsRight(e.data)){
+                    result.score = this.currentTime;
+                    this.totalScore += result.score;
+                }else{
+                    result.score = 0;
+                }
+                this.results[this.currentQuestionIndex] = result;
+                this.nextQuestion();
+                break;
+            case "skip":
+                this.skipCurrentQuestion();
+                break;
+            case "showTips":
+                //显示tips暂停
+                this.pause();
+                this.dispatchEvent(e);
+                break;
+        }
+
+    };
 
 
     p._renderBase = null;
@@ -212,33 +257,7 @@ this.cQuestion = this.cQuestion||{};
         this.dispatchEvent("tick");
     };
 
-    /**
-     * 接收来自render的事件
-     * @param e
-     * @private
-     */
-    p._renderEventHander = function(e){
-        var eventType = e.type;
-        switch(eventType){
-            case "result":
-                var result = {};
-                result.answer = e.data;
-                var question = this.questions[this.currentQuestionIndex];
-                if(question.answerIsRight(e.data)){
-                    result.score = this.currentTime;
-                    this.totalScore += result.score;
-                }else{
-                    result.score = 0;
-                }
-                this.results[this.currentQuestionIndex] = result;
-                this.nextQuestion();
-                break;
-            case "skip":
-                this.skipCurrentQuestion();
-                break;
-        }
 
-    }
 
 
     /**

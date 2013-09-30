@@ -41,6 +41,9 @@
                 $(this).parent().children("div").css({"background": ""});
                 $(this).css({"background": "red"});
             });
+            this._$("show_tips").click(function(){
+                _this.dispatchEvent("showTips");
+            });
         }
 
     }());
@@ -52,3 +55,4 @@
 </div>
 <button class="answer_yes">yes</button>
 <button class="answer_skip">skip</button>
+<button class="show_tips">showTips</button>

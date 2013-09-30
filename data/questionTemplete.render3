@@ -6,6 +6,7 @@
    <canvas class="q_canvas" width=600 height=400></canvas>
 </div>
 <button class="answer_skip">skip</button>
+<button class="show_tips">showTips</button>
 
 <script>
 
@@ -34,9 +35,12 @@
             var game = new cQuestion.MosaicGame(stage);
             game.initGame(this.question.content);
             game.addEventListener("complete",function(e){
-                  var event = new createjs.Event("result");
-                    event.data = true;
-                    _this.dispatchEvent(event);
+                var event = new createjs.Event("result");
+                event.data = true;
+                _this.dispatchEvent(event);
+            });
+            this._$("show_tips").click(function(){
+                _this.dispatchEvent("showTips");
             });
         };
     }());
