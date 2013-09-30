@@ -1,0 +1,41 @@
+﻿<script>
+
+    //防止一个页面多个应用 混乱调用
+    //类名请和文件名对应
+    //temp里最好不用id 做为标签标示
+
+    this.questionTemplete = this.questionTemplete || {};
+    (function(){
+        var render1 = function(question,parentId){
+           cQuestion.QRB.apply(this, arguments);
+           this.initView();
+        }
+        var p =  render1.prototype = new cQuestion.QRB();
+        questionTemplete.render1 = render1;
+
+        p.initView = function(){
+            var _this = this;
+            this._$("q_title").html(this.question.title);
+            this._$("q_content").html(this.question.content);
+
+            this._$("answer_yes").click(function(){
+                var event = new createjs.Event("result");
+                event.data = true;
+                _this.dispatchEvent(event);
+            });
+            this._$("answer_no").click(function(){
+                var event = new createjs.Event("result");
+                event.data = false;
+                _this.dispatchEvent(event);
+            });
+            this._$("answer_skip").click(function(){
+                _this.dispatchEvent("skip");
+            });
+        };
+    }());
+</script>
+<div class="q_title"></div>
+<div class="q_content"></div>
+<button class="answer_yes">yes</button>
+<button class="answer_no">no</button>
+<button class="answer_skip">skip</button>

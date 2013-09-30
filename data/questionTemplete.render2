@@ -1,0 +1,54 @@
+<script>
+       //防止一个页面多个应用 混乱调用
+       //类名请和文件名对应
+       //temp里最好不用id 做为标签标示
+    this.questionTemplete = this.questionTemplete || {};
+    (function(){
+       var render2 = function(question,parentId){
+          cQuestion.QRB.apply(this, arguments);
+          this.initView();
+       }
+       var p =  render2.prototype = new cQuestion.QRB();
+       questionTemplete.render2 = render2;
+
+       p.initView = function(){
+            var _this = this;
+
+            this._$("q_title").html(this.question.title);
+            var len = this.question.content.length;
+            var renderHtml = this._$("answerRender");
+                for(var i=0;i<len;i++){
+                var content = this.question.content[i];
+
+                var cloneRender = renderHtml.clone(true);
+                cloneRender.html(content);
+                this._$("q_content").append(cloneRender);
+            }
+            renderHtml.remove();
+            this._$("answer_yes").click(function(){
+                var event = new createjs.Event("result");
+                event.data = selectIndex;
+               _this.dispatchEvent(event);
+            });
+            this._$("answer_skip").click(function(){
+                var event = new createjs.Event("skip");
+               _this.dispatchEvent(event);
+            });
+            var selectIndex = -1;
+            this._$("answerRender").click(function(){
+                selectIndex = $(this).parent().children("div").index(this);
+                trace(selectIndex);
+                $(this).parent().children("div").css({"background": ""});
+                $(this).css({"background": "red"});
+            });
+        }
+
+    }());
+</script>
+
+<div class="q_title"></div>
+<div class="q_content">
+    <div class="answerRender"></div>
+</div>
+<button class="answer_yes">yes</button>
+<button class="answer_skip">skip</button>

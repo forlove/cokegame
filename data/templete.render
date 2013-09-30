@@ -1,0 +1,16 @@
+<script>
+
+    //这是一个模版文件
+    //防止一个页面多个应用 混乱调用
+    //类名请和文件名对应
+    this.templete = this.templete || {};
+    (function(){
+        var render = function(question,parentId){
+           cQuestion.QRB.apply(this, arguments);
+        }
+        var p =  render.prototype = new cQuestion.QRB();
+        templete.render = render;
+
+    }());
+</script>
+

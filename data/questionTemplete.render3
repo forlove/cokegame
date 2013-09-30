@@ -1,0 +1,43 @@
+
+
+
+<div class="q_title"></div>
+<div class="q_content">
+   <canvas class="q_canvas" width=600 height=400></canvas>
+</div>
+<button class="answer_skip">skip</button>
+
+<script>
+
+    //这是一个模版文件
+    //防止一个页面多个应用 混乱调用
+    //类名请和文件名对应
+    this.questionTemplete = this.questionTemplete || {};
+    (function(){
+        var render3 = function(question,parentId){
+           cQuestion.QRB.apply(this, arguments);
+           this.initView();
+
+        }
+        var p =  render3.prototype = new cQuestion.QRB();
+        questionTemplete.render3 = render3;
+
+        p.initView = function(){
+            var _this = this;
+            this._$("q_title").html(this.question.title);
+            this._$("answer_skip").click(function(e){
+                 _this.dispatchEvent("skip");
+            });
+
+            var canvas = this._$("q_canvas").get(0);
+            var stage = new createjs.Stage(canvas);
+            var game = new cQuestion.MosaicGame(stage);
+            game.initGame(this.question.content);
+            game.addEventListener("complete",function(e){
+                  var event = new createjs.Event("result");
+                    event.data = true;
+                    _this.dispatchEvent(event);
+            });
+        };
+    }());
+</script>

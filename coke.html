@@ -1,0 +1,109 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/easeljs-0.7.0.min.js"></script>
+        <script type="text/javascript" src="js/preloadjs-0.4.0.min.js"></script>
+        <script type="text/javascript" src="js/soundjs-0.5.0.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+
+        <script type="text/javascript" src="js/cQuestion/Const.js"></script>
+        <script type="text/javascript" src="js/cQuestion/Question.js"></script>
+        <script type="text/javascript" src="js/cQuestion/QuestionManager.js"></script>
+        <script type="text/javascript" src="js/cQuestion/AessetsManager.js"></script>
+        <script type="text/javascript" src="js/cQuestion/QuestionRenderBase.js"></script>
+        <script type="text/javascript" src="js/cQuestion/MosaicGame.js"></script>
+        <script type="text/javascript" src="js/cQuestion/SoundManager.js"></script>
+
+
+
+        <!-- 以下是测试用的 -->
+        <script type="text/javascript" src="js/createjs/AbstractLoader.js"></script>
+        <script type="text/javascript" src="js/createjs/LoadQueue.js"></script>
+        <script type="text/javascript" src="js/createjs/TagLoader.js"></script>
+        <script type="text/javascript" src="js/createjs/XHRLoader.js"></script>
+        <script type="text/javascript" src="js/createjs/Sound.js"></script>
+
+        <script type="text/javascript" src="js/version.js"></script>
+        <title>coke</title>
+    </head>
+
+    <script>
+        var questionManager;
+        var initThis = function(){
+            cQuestion.AM.init();
+            cQuestion.AM.loader.on("complete",function(e){
+                initManager();
+                cQuestion.AM.loader.off("progress",prgressHandler);
+                var s = cQuestion.SM.play("bgSound");
+                trace(s.playState);
+
+            },null,true);
+            cQuestion.AM.loader.on("error",function(e){
+                alert("加载失败:" + e.item.src + "可能要在服务器环境下测试。。。")
+            });
+            cQuestion.AM.loader.on("progress",prgressHandler);
+            function prgressHandler(e){
+                var pre = (e.progress/e.total);
+
+                $("#progree").attr("value",pre);
+            }
+        }
+        var initManager = function(){
+            questionManager = new cQuestion.QustionManager($("#question"));
+            var questions = cQuestion.AM.getQuestions();
+
+            questionManager.setQuestions(questions) ;
+            questionManager.start();
+
+            questionManager.on("complete",function(e){
+                $("#question").html("完成了");
+                $("#time").hide();
+                updateScore();
+            });
+            questionManager.on("tick",function(e){
+                updateTime();
+            });
+            questionManager.on("questionChange",function(){
+                updateTime();
+                updateScore();
+            });
+            questionManager.on("rest",function(){
+                $("#question").html("休息时间");
+                updateTime();
+                updateScore();
+            });
+            //ddd
+            updateTime();
+
+            function updateScore(){
+                $("#totalScore").html(questionManager.totalScore);
+            }
+
+            function updateTime(){
+                $("#time").html(questionManager.currentTime);
+            }
+        }
+
+
+    </script>
+    <body onload="initThis();">
+        加载进度222bbbbdddddssssvvvddhhhhhhh
+        sdfsdfsdf
+
+
+        <progress id="progree"></progress>
+        <div id="box">点我点我在</div>
+        剩余时间：<div id="time"></div>
+        总分：<div id="totalScore"></div>
+        <div id="loginInfoPanel">
+
+        </div>
+
+        <div id="question" >
+
+        </div>
+    </body>
+</html>

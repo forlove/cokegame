@@ -1,0 +1,65 @@
+{"questions1":[  {
+                    "title":"第三个问题",
+                    "content":["<div>A:中文<img src='assets/s1.png'></img></div>","<div>B:XX</div>","<div>C:XX</div>","<div>D:XX</div>"],
+                    "answer":0,
+                    "type": 2,
+                    "templete":"questionTemplete.render2"
+                },
+
+
+                {
+                    "title":"是非题",
+                    "content":"content1<img src='assets/s1.png'></img>",
+                    "answer":true,
+                    "type": 1,
+                    "templete":"questionTemplete.render1"
+                },
+                {
+                    "title":"交互题",
+                    "content":{"bg":"assets/bg.jpg","imags":[{"src":"assets/s1.png","x":0,"y":0,"tx":179,"ty":22},
+                        {"src":"assets/s1.png","x":0,"y":0,"tx":100,"ty":10}
+                    ]},
+                    "answer":true,
+                    "type":3,
+                    "templete":"questionTemplete.render3"
+
+                },
+
+                {
+                    "title":"question2",
+                    "content":"content2",
+                    "answer":false,
+                    "type": 1,
+                    "templete":"questionTemplete.render1"
+                },
+                {
+                    "title":"是非题",
+                    "content":"content1",
+                    "answer":true,
+                    "type": 1,
+                    "templete":"questionTemplete.render1"
+                },
+                {
+                    "title":"question2",
+                    "content":"content2<img src='assets/bg.jpg'/>",
+                    "answer":false,
+                    "type": 1,
+                    "templete":"questionTemplete.render1"
+                },
+                {
+                    "title":"是非题",
+                    "content":"content1<img src='assets/s1.png'></img>",
+                    "answer":true,
+                    "type": 1,
+                    "templete":"questionTemplete.render1"
+                },
+                {
+                    "title":"question2",
+                    "content":"content2",
+                    "answer":false,
+                    "type": 1,
+                    "templete":"questionTemplete.render1"
+                }
+
+               ]
+}
