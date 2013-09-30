@@ -4,7 +4,7 @@
                     "answer":0,
                     "type": 2,
                     "templete":"questionTemplete.render2",
-                    "tips":"<img src='assets/s1.png'> 这是tips"
+                    "tips":"<img src='assets/s1.png'> 这是tips<a href='assets/sound.mp3|assets/sound.ogg'>试听</a>"
                 },
 
 

@@ -24,6 +24,7 @@ this.cQuestion = this.cQuestion||{};
     cQuestion.QV = QuestionView;
 
     p.init = function(){
+      track();
         var questionManager;
         cQuestion.AM.init();
         cQuestion.AM.loader.on("complete",function(e){
@@ -32,7 +33,6 @@ this.cQuestion = this.cQuestion||{};
             //var playParam = {loop:-1,completeCallBack:musicCallBack};
             cQuestion.AM.loader.off("progress",prgressHandler);
             var s = cQuestion.SM.play("bgSound");
-            trace(s.playState);
 
         },null,true);
         cQuestion.AM.loader.on("error",function(e){
@@ -109,6 +109,13 @@ this.cQuestion = this.cQuestion||{};
                         trace(questionManager);
                         $("#tipsContent").html(questionManager.getCurrentQuestion().tips);
                         $("#tips").show();
+                        $("#tipsContent a").each(function(i,val){
+                            $(val).click(function(e){
+                                e.preventDefault();
+                                cQuestion.SM.play(val.href)
+                            });
+
+                        });
                         break;
                 }
             }

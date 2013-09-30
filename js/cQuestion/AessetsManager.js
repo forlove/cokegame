@@ -154,8 +154,12 @@ this.cQuestion = this.cQuestion||{};
         var manifest = [];
         for(var i=0;i<len;i++){
             var q = arr[i];
-            utils.getImageImgSrc(q.title,manifest);
-            utils.getImageImgSrc(q.content,manifest);
+            utils.getImageSrc(q.title,manifest);
+            utils.getImageSrc(q.content,manifest);
+            utils.getSoundSrc(q.tips,manifest);
+            utils.getImageSrc(q.tips,manifest);
+            utils.getSoundSrc(q.tips,manifest);
+
         }
         this.loader.loadManifest(manifest,false)
     };
