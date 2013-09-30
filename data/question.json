@@ -3,7 +3,8 @@
                     "content":["<div>A:中文<img src='assets/s1.png'></img></div>","<div>B:XX</div>","<div>C:XX</div>","<div>D:XX</div>"],
                     "answer":0,
                     "type": 2,
-                    "templete":"questionTemplete.render2"
+                    "templete":"questionTemplete.render2",
+                    "tips":"<img src='assets/s1.png'> 这是tips"
                 },
 
 

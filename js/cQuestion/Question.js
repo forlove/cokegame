@@ -40,7 +40,17 @@ this.cQuestion = this.cQuestion||{};
      */
     p.template = "";
 
+    /**
+     * 问题答案
+     * @type {null}
+     */
     p.answer = null;
+
+    /**
+     * 问题提示
+     * @type {null}
+     */
+    p.tips = null;
 
     /**
      * 解析自json
@@ -52,6 +62,7 @@ this.cQuestion = this.cQuestion||{};
         this.answer = json.answer;
         this.questionType = json.type;
         this.template = json.templete;
+        this.tips = json.tips;
 
     }
 
