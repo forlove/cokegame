@@ -1,12 +1,4 @@
-{"questions1":[  {
-                    "title":"第三个问题",
-                    "content":["<div>A:中文<img src='assets/s1.png'></img></div>","<div>B:XX</div>","<div>C:XX</div>","<div>D:XX</div>"],
-                    "answer":0,
-                    "type": 2,
-                    "templete":"questionTemplete.render2",
-                    "tips":"<img src='assets/s1.png'> 这是tips<a href='assets/sound.mp3|assets/sound.ogg'>试听</a>"
-                },
-
+{"questions1":[
 
                 {
                     "title":"是非题",
@@ -15,6 +7,17 @@
                     "type": 1,
                     "templete":"questionTemplete.render1"
                 },
+                {
+                    "title":"第三个问题",
+                    "content":["<div>A:中文<img src='assets/s1.png'></img></div>","<div>B:XX</div>","<div>C:XX</div>","<div>D:XX</div>"],
+                    "answer":0,
+                    "type": 2,
+                    "templete":"questionTemplete.render2",
+                    "tips":"<img src='assets/s1.png'> 这是tips<a data-sound='assets/sound.mp3|assets/sound.ogg'>试听</a>"
+                },
+
+
+
                 {
                     "title":"交互题",
                     "content":{"bg":"assets/bg.jpg","imags":[{"src":"assets/s1.png","x":0,"y":0,"tx":179,"ty":22},

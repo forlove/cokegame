@@ -58,7 +58,7 @@ this.cQuestion = this.cQuestion||{};
         };
 
         var initManager = function(){
-            questionManager = new cQuestion.QustionManager($("#question"));
+            questionManager = new cQuestion.QustionManager($("#questionContent"));
             var questions = cQuestion.AM.getQuestions();
 
             questionManager.setQuestions(questions) ;
@@ -89,7 +89,7 @@ this.cQuestion = this.cQuestion||{};
                 var eventType = e.type;
                 switch(eventType){
                     case "complete":
-                        $("#question").html("完成了");
+                        $("#questionContent").html("完成了");
                         $("#time").hide();
                         updateScore();
                         break;
@@ -101,7 +101,7 @@ this.cQuestion = this.cQuestion||{};
                         updateScore();
                         break;
                     case "rest":
-                        $("#question").html("休息时间");
+                        $("#questionContent").html("休息时间");
                         updateTime();
                         updateScore();
                         break;
@@ -110,10 +110,14 @@ this.cQuestion = this.cQuestion||{};
                         $("#tipsContent").html(questionManager.getCurrentQuestion().tips);
                         $("#tips").show();
                         $("#tipsContent a").each(function(i,val){
-                            $(val).click(function(e){
-                                e.preventDefault();
-                                cQuestion.SM.play(val.href)
-                            });
+                            var sound = $(val).data("sound");
+                            if(sound){
+                                $(val).click(function(e){
+                                    e.preventDefault();
+                                    cQuestion.SM.play(sound)
+                                });
+                            }
+
 
                         });
                         break;

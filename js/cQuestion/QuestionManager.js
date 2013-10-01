@@ -101,16 +101,32 @@ this.cQuestion = this.cQuestion||{};
      */
     p.showQuestion = function(index){
         var question = this.questions[index];
+        var nextQuestion = this.questions[index+1];
+        var divContentId = this.divContent.attr("id");
+        var currentQuestionId = divContentId + "_current";
+        var nextQuestionID = divContentId + "_next";
+        var templete = cQuestion.AM.getTemplete(question.template);
+        if(!templete){
+            alert("没找到对应模版:"+question.template);
+            return;
+        }
+        var content = $("<div></div>");
+        content.attr("id",currentQuestionId);
+        content.css({'border-style':'solid', 'border-width':'5px','position':'absolute'});
+        content.append(templete)
+        this.divContent.html(content);
+        if(nextQuestion){
+            templete = cQuestion.AM.getTemplete(nextQuestion.template);
+            var content = $("<div></div>");
+            content.append(templete)
+            content.attr("id",nextQuestionID);
+            content.hide();
+            this.divContent.append(content);
+        }
         if(question){
-            var param = {};
-            var templete = cQuestion.AM.getTemplete(question.template);
-            if(!templete){
-                alert("没找到对应模版:"+question.template);
-                return;
-            }
-            var divContentId = this.divContent.attr("id");
-            var newMethod = "Templete1";
-            this._renderContent(templete);
+
+
+
             if(this._renderBase){
                 this._renderBase.off("result",this._renderEventHander);
                 this._renderBase.off("skip",this._renderEventHander);
@@ -123,6 +139,7 @@ this.cQuestion = this.cQuestion||{};
             this._renderBase.on("showTips",this._renderEventHander,this);
 
         }
+
 
 
     }
@@ -175,16 +192,9 @@ this.cQuestion = this.cQuestion||{};
      */
     p.play = function(){
         this._tickTimer = setInterval(this._tickHandler.bind(this),1000)
-    }
+    };
 
-    /**
-     * 刷新html
-     * @param html
-     * @private
-     */
-    p._renderContent = function(html){
-        this.divContent.html(html);
-    }
+
 
     /*
     *设置试题
@@ -194,7 +204,7 @@ this.cQuestion = this.cQuestion||{};
         this.results = [];
         this.totalScore = 0;
         this.currentQuestionIndex = -1;
-    }
+    };
 
      /**
      * 返回这个问题的结果 得分

@@ -37,31 +37,12 @@ var utils = {
         var parent = $("<div></div>");
         parent.append($(str));
         parent.find("a").each(function(i,val){
-            var url = $(val).attr("href");
-            if(utils.isSoundUrl(url)){
-                if(arr.indexOf(url) == -1){
-                    arr.push(url);
-                }
+            var url = $(val).data("sound");
+            if(arr.indexOf(url) == -1){
+                arr.push(url);
             }
         })
         return arr;
-    },
-
-    /**
-     * 是不是音乐
-     * @param str
-     * @returns {boolean}
-     */
-    isSoundUrl:function(str){
-        var path = str.split(".");
-        extension = path[path.length-1];
-        switch(extension){
-            case "wav":
-            case "mp3":
-            case "ogg":
-                return true;
-        }
-        return false;
     },
 
     /**
