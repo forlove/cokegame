@@ -24,7 +24,7 @@ this.cQuestion = this.cQuestion||{};
     cQuestion.QV = QuestionView;
 
     p.init = function(){
-      track();
+
         var questionManager;
         cQuestion.AM.init();
         cQuestion.AM.loader.on("complete",function(e){
@@ -49,6 +49,15 @@ this.cQuestion = this.cQuestion||{};
             trace("musicCompleted");
         }
         var initView = function(){
+            $("#questionContent").on('cycle-after', function( event, opts ) {
+                var allNum = opts.slideNum;
+                for(var i = 0;i<allNum-1;i++)
+                {
+                    $("#questionContent").cycle("remove",i);
+                }
+                console.log(allNum);
+                console.log(opts);
+            });
             $("#tips").hide();
             $("#closeTips").click(function(){
                 $("#tips").hide();
@@ -57,19 +66,30 @@ this.cQuestion = this.cQuestion||{};
 
         };
 
+        var showQuestionContent = function(str,rmoveAfter){
+            var  qc = $("#questionContent");
+            var content = $("<div></div>");
+            content.css({'border-style':'solid', 'border-width':'5px','position':'absolute'});
+            content.append(str);
+            qc.cycle("add",content);
+            qc.cycle("next");
+        };
+
         var initManager = function(){
             questionManager = new cQuestion.QustionManager($("#questionContent"));
+            questionManager.on("complete",managerEventHandler);
+            questionManager.on("tick",managerEventHandler);
+            questionManager.on("questionChange",managerEventHandler);
+            questionManager.on("rest",managerEventHandler);
+            questionManager.on("showTips",managerEventHandler);
+            questionManager.on("showQuestion",managerEventHandler);
             var questions = cQuestion.AM.getQuestions();
 
             questionManager.setQuestions(questions) ;
             questionManager.start();
             updateTime();
 
-            questionManager.on("complete",managerEventHandler);
-            questionManager.on("tick",managerEventHandler);
-            questionManager.on("questionChange",managerEventHandler);
-            questionManager.on("rest",managerEventHandler);
-            questionManager.on("showTips",managerEventHandler);
+
             //ddd
 
 
@@ -89,7 +109,7 @@ this.cQuestion = this.cQuestion||{};
                 var eventType = e.type;
                 switch(eventType){
                     case "complete":
-                        $("#questionContent").html("完成了");
+                        showQuestionContent("完成了");
                         $("#time").hide();
                         updateScore();
                         break;
@@ -101,7 +121,7 @@ this.cQuestion = this.cQuestion||{};
                         updateScore();
                         break;
                     case "rest":
-                        $("#questionContent").html("休息时间");
+                        showQuestionContent("休息时间");
                         updateTime();
                         updateScore();
                         break;
@@ -120,6 +140,14 @@ this.cQuestion = this.cQuestion||{};
 
 
                         });
+                        break;
+                    case "showQuestion":
+                        var templete = cQuestion.AM.getTemplete(e.data.template);
+                        if(!templete){
+                            alert("没找到对应模版:"+question.template);
+                            return;
+                        }
+                        showQuestionContent(templete);
                         break;
                 }
             }
