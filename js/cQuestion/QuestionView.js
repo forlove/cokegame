@@ -83,7 +83,14 @@ this.cQuestion = this.cQuestion||{};
             questionManager.on("rest",managerEventHandler);
             questionManager.on("showTips",managerEventHandler);
             questionManager.on("showQuestion",managerEventHandler);
+            questionManager.on("scoreChange",managerEventHandler);
             var questions = cQuestion.AM.getQuestions();
+            var len = questions.length;
+            var requstUL = $("#questionResult");
+            for(var i = 0;i<len;i++){
+                var questionIndex = i +1;
+                requstUL.append("<li></li>");
+            }
 
             questionManager.setQuestions(questions) ;
             questionManager.start();
@@ -95,10 +102,27 @@ this.cQuestion = this.cQuestion||{};
 
             function updateScore(){
                 $("#totalScore").html(questionManager.totalScore);
+                for(var i = 0;i<len;i++){
+                    var question = questions[i];
+                    var result = questionManager.getResult(question);
+                    if(result){
+                        var li = $("#questionResult li:eq("+i+")");
+                        li.html(result.score);
+                        if(result.score == 0){
+                            li.css("background-color","#ff0000");
+                        }else{
+                            li.css("background-color","#00ff00");
+                        }
+
+                    }
+
+                }
+
             }
 
             function updateTime(){
                 $("#time").html(questionManager.currentTime);
+
             }
 
             /**
@@ -111,19 +135,16 @@ this.cQuestion = this.cQuestion||{};
                     case "complete":
                         showQuestionContent("完成了");
                         $("#time").hide();
-                        updateScore();
                         break;
                     case "tick":
                         updateTime();
                         break;
                     case "questionChange":
                         updateTime();
-                        updateScore();
                         break;
                     case "rest":
                         showQuestionContent("休息时间");
                         updateTime();
-                        updateScore();
                         break;
                     case "showTips":
                         trace(questionManager);
@@ -148,6 +169,9 @@ this.cQuestion = this.cQuestion||{};
                             return;
                         }
                         showQuestionContent(templete);
+                        break;
+                    case "scoreChange":
+                        updateScore();
                         break;
                 }
             }

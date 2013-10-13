@@ -39,6 +39,7 @@ this.cQuestion = this.cQuestion||{};
      *  questionChange: 问题改变了
      *  rest:休息时间到了
      *  showTips 显示tips
+     *  scoreChange 分数改变
      *
      */
 
@@ -62,8 +63,7 @@ this.cQuestion = this.cQuestion||{};
     p.nextQuestion = function(){
         this.pause();
         var nextIndex = this.currentQuestionIndex + 1;
-        this.currentQuestionIndex++;
-        if(this.currentQuestionIndex % 5 == 0 && !this._restTime){
+        if(nextIndex % 5 == 0 && !this._restTime){
             this._restTime = true;
             this.currentTime = QustionManager.REST_TIME;
             this.dispatchEvent("rest");
@@ -73,7 +73,7 @@ this.cQuestion = this.cQuestion||{};
         }
         cQuestion.AM.stopPreLoad();
         this._restTime = false;
-        this.currentTime = 30;
+
         this.currentQuestionIndex = nextIndex;
         if(this.currentQuestionIndex >= this.questions.length){
             this.dispatchEvent("complete");
@@ -101,6 +101,7 @@ this.cQuestion = this.cQuestion||{};
      */
     p.showQuestion = function(index){
         var question = this.questions[index];
+        this.currentTime = question.answerTime;
         var divContentId = this.divContent.attr("id");
         if(question){
             var event = new createjs.Event("showQuestion");
@@ -139,6 +140,8 @@ this.cQuestion = this.cQuestion||{};
                     result.score = 0;
                 }
                 this.results[this.currentQuestionIndex] = result;
+                this.dispatchEvent("scoreChange");
+
                 this.nextQuestion();
                 break;
             case "skip":
@@ -216,9 +219,15 @@ this.cQuestion = this.cQuestion||{};
      * 跳过当前问题
      */
     p.skipCurrentQuestion = function(){
-        var result = {};
-        result.score = 0;
-        this.results[this.currentQuestionIndex] = result;
+
+        var result = this.getResult(this.currentQuestionIndex);
+        if(!result){
+            result = {};
+            result.score = 0;
+            this.results[this.currentQuestionIndex] = result;
+            this.dispatchEvent("scoreChange");
+        }
+
         this.nextQuestion();
     };
 
@@ -274,7 +283,7 @@ this.cQuestion = this.cQuestion||{};
      * 当前剩余时间
      * @type {number}
      */
-    p.currentTime = 30;
+    p.currentTime = 0;
 
     /**
      * 计时器引用

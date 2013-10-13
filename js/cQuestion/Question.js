@@ -52,6 +52,9 @@ this.cQuestion = this.cQuestion||{};
      */
     p.tips = null;
 
+
+
+
     /**
      * 解析自json
      * @param json
@@ -73,7 +76,13 @@ this.cQuestion = this.cQuestion||{};
      */
     p.answerIsRight = function(answer){
         return answer == this.answer;
-    }
+    };
+
+    /**
+     * 回答时间
+     * @type {number}
+     */
+    p.answerTime = 30;
 
 
 }());

@@ -1,0 +1,16 @@
+#questionResult{
+}
+
+#questionResult li{
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-left: 5px;
+    list-style: none;
+    text-align: center;
+}
+
+.clear{
+    clear:both;
+    float:none;
+}
